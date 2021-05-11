@@ -85,6 +85,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 ret['homework_overall'] = len(all_homeworks)
             else:
                 ret['homework_overall'] = sum(all_homeworks) // len(all_homeworks)
+            if (sum(all_homeworks) == 0 and sum(all_quizes) == 0):
+                ret['overral'] = (len(all_quizes) + len(all_homeworks))
+            else:
+                ret['overral'] = (sum(all_quizes) + sum(all_homeworks)) // (len(all_quizes) + len(all_homeworks))
+            
+
+            ret['number_of_classes'] = len(instance.user_students.all())
+            ret['number_of_public_classes'] = len(instance.user_students.filter(class_type='public'))
+            ret['number_of_private_classes'] = len(instance.user_students.filter(class_type='private'))
             return ret
         else:
             ret['number_of_classes'] = len(instance.user_teacher.all())
