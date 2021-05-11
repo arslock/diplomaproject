@@ -48,7 +48,7 @@ class UserProfileView(ListAPIView):
 
 
 class ProfileViewSet(GenericViewSet):
-    serializer_class = UserEditSerializer
+    serializer_class = UserProfileSerializer
     permission_classes = (IsAuthenticated,)
     pagination_class = None
     queryset = User.objects.all()
