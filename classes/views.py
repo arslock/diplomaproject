@@ -151,7 +151,8 @@ class QuizViewSet(viewsets.ModelViewSet):
 class AboutClassViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = AboutSerializer
-    
+    pagination_class = None
+
     def get_queryset(self):
         extra_kwargs = {}
         if self.request.query_params.get('class'):
