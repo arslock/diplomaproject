@@ -69,7 +69,7 @@ class TeachersClassSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        exclude = ['password']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
