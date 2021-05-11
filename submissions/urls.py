@@ -5,7 +5,7 @@ from .views import SubmitQuizViewSet, SubmitClassWorkViewSet
 
 router = DefaultRouter()
 router.register(r'submit-classwork', SubmitClassWorkViewSet)
-router.register(r'submit-quiz', SubmitQuizViewSet)
+# router.register(r'submit-quiz', SubmitQuizViewSet)
 
 urlpatterns = [
 
