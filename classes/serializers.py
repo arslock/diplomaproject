@@ -159,10 +159,10 @@ class AboutSerializer(serializers.ModelSerializer):
 
 
 
-class ClassWorkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClassWork
-        fields = '__all__'
+# class ClassWorkSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ClassWork
+#         fields = '__all__'
 
     # def to_representation(self, instance):
     #     ls = []

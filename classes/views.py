@@ -75,6 +75,15 @@ class ClassWorkViewSet(viewsets.ModelViewSet):
         )
     ).order_by()
 
+    def get_queryset(self):
+        return ClassWork.objects.prefetch_related(
+           Prefetch(
+            'class_classwork',
+            queryset=SubmitClassWork.objects.all(),
+            to_attr='submited_classwork'
+        )
+        ).order_by()
+        
 class AnnouncmentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = AnnouncmentSerializer
