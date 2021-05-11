@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SubmitQuiz, SubmitHomeWork
+from .models import SubmitQuiz, SubmitClassWork
 from accounts.models import User
 
 # class SubmitUserSerializer(serializers.ModelSerializer):
@@ -27,10 +27,10 @@ class SubmitQuizSerializer(serializers.ModelSerializer):
                 'author': {'read_only': True}
             }
 
-class SubmitHomeWorkSerializer(serializers.ModelSerializer):
+class SubmitClassWorkSerializer(serializers.ModelSerializer):
     author = StudentUserSerializer(read_only=True)
     class Meta:
-        model = SubmitHomeWork
+        model = SubmitClassWork
         fields = "__all__"
         extra_kwargs = {
                 'author': {'read_only': True}

@@ -1,20 +1,20 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .serializers import SubmitHomeWorkSerializer, SubmitQuizSerializer
+from .serializers import SubmitQuizSerializer, SubmitClassWorkSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from .models import SubmitHomeWork, SubmitQuiz
+from .models import SubmitQuiz, SubmitClassWork
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 
-class SubmitHomeWorkViewSet(viewsets.ModelViewSet):
+class SubmitClassWorkViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
-    serializer_class = SubmitHomeWorkSerializer
+    serializer_class = SubmitClassWorkSerializer
     parser_classes = (MultiPartParser,)
 
-    queryset = SubmitHomeWork.objects.all()
+    queryset = SubmitClassWork.objects.all()
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

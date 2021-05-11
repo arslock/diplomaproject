@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from .models import ClassModel, HomeWorkModel, Question, QuizModel, Announcment, Answer, MaterialModel, LessonModel, AboutClass
+from .models import ClassModel, Question, QuizModel, Announcment, Answer, MaterialModel, LessonModel, AboutClass, ClassWork
 import string
 import random
 from django.contrib.auth import get_user_model
 # from accounts.models import TeacherUser, User, StudentUser
-from submissions.serializers import SubmitQuizSerializer, SubmitHomeWorkSerializer
+from submissions.serializers import SubmitQuizSerializer, SubmitClassWorkSerializer
 from accounts.models import User
 User = get_user_model()
 
@@ -98,16 +98,16 @@ class QuizSerializer(serializers.ModelSerializer):
         ret['object_type'] = 'quiz'
         return ret
 
-class HomeWorkSerializer(serializers.ModelSerializer):
+class ClassWorkSerializer(serializers.ModelSerializer):
     class Meta:
-        model = HomeWorkModel
+        model = ClassWork
         fields = '__all__'
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        ret['object_type'] = 'homework'
-        if hasattr(instance, 'submited_homework_list'):
-            ret['submited_homeworks'] = SubmitHomeWorkSerializer(instance.submited_homework_list, many=True, context=self.context).data
+        ret['object_type'] = 'classwork'
+        if hasattr(instance, 'submited_classwork'):
+            ret['submited_classwork'] = SubmitClassWorkSerializer(instance.submited_classwork, many=True, context=self.context).data
         return ret
 
 

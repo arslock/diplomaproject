@@ -50,16 +50,24 @@ class MaterialModel(models.Model):
     def __str__(self):
         return self.title
 
-class HomeWorkModel(models.Model):
-    scratch_class = models.ForeignKey(ClassModel, on_delete=models.CASCADE, related_name='homework_class')
+class ClassWork(models.Model):
+    class ClassWorkChoice(models.TextChoices): 
+        LESSON = 'lesson', _('lesson')
+        MATERIAL = 'material', _('material')
+        HOMEWORK = 'homework', _('homework')
+
+    scratch_class = models.ForeignKey(ClassModel, on_delete=models.CASCADE, related_name='class_work')
 
     title = models.CharField(max_length=250)
     description = models.TextField(null=True, blank=True)
     uploaded_file = models.FileField()
-    due_date = models.DateTimeField()
+    due_date = models.DateTimeField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    classwork_type = models.CharField(max_length=50, choices=ClassWorkChoice.choices)
+
     
     class Meta:
         ordering = ['-created_at']

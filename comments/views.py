@@ -1,18 +1,19 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .serializers import HomeWorkCommentSerializer, LessonCommentSerializer, QuizCommentSerializer, MaterialCommentSerializer
+from .serializers import ClassWorkCommentSerializer, LessonCommentSerializer, QuizCommentSerializer, MaterialCommentSerializer
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from .models import HomeWorkComments, LessonComments, QuizComments, MaterialComments
+from .models import ClassWorkComments, LessonComments, QuizComments, MaterialComments
 from rest_framework.generics import ListAPIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
+from rest_framework import status
 
-class HomeWorkCommentViewSet(viewsets.ModelViewSet):
+class ClassWorkCommentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
-    serializer_class = HomeWorkCommentSerializer
-    queryset = HomeWorkComments.objects.all()
+    serializer_class = ClassWorkCommentSerializer
+    queryset = ClassWorkComments.objects.all()
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -59,13 +60,13 @@ class MaterialCommentViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-class ClassHWComments(ListAPIView):
+class ClassWorkComments(ListAPIView):
     permission_classses = (IsAuthenticated,)
-    serializer_class = HomeWorkCommentSerializer
-    queryset = HomeWorkComments.objects.all()
+    serializer_class = ClassWorkCommentSerializer
+    queryset = ClassWorkComments.objects.all()
 
     def get_queryset(self):
-        return HomeWorkComments.objects.filter(homework=self.kwargs['hw_id'])
+        return ClassWorkComments.objects.filter(classwork=self.kwargs['classwork_id'])
 
 class ClassLessonComments(ListAPIView):
     permission_classses = (IsAuthenticated,)

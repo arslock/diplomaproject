@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from .models import HomeWorkComments, MaterialComments, LessonComments, QuizComments
+from .models import ClassWorkComments, MaterialComments, LessonComments, QuizComments
 
-class HomeWorkCommentSerializer(serializers.ModelSerializer):
+class ClassWorkCommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = HomeWorkComments
+        model = ClassWorkComments
         fields = "__all__"
 
         extra_kwargs = {

@@ -75,20 +75,20 @@ class UserProfileSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         if instance.role_type == 'student':
 
-            all_quizes = instance.submited_quizes.exclude(grade=None).values_list('grade', flat=True)
-            if (sum(all_quizes) == 0):
-                ret['quiz_overall'] = len(all_quizes)
+            all_classworks = instance.submited_classwork.exclude(grade=None).values_list('grade', flat=True)
+            if (sum(all_classworks) == 0):
+                ret['classwork_overall'] = len(all_quizes)
             else: 
-                ret['quiz_overall'] = sum(all_quizes) // len(all_quizes)
-            all_homeworks = instance.submited_homework.exclude(grade=None).values_list('grade', flat=True)
-            if (sum(all_homeworks) == 0):
-                ret['homework_overall'] = len(all_homeworks)
-            else:
-                ret['homework_overall'] = sum(all_homeworks) // len(all_homeworks)
-            if (sum(all_homeworks) == 0 and sum(all_quizes) == 0):
-                ret['overral'] = (len(all_quizes) + len(all_homeworks))
-            else:
-                ret['overral'] = (sum(all_quizes) + sum(all_homeworks)) // (len(all_quizes) + len(all_homeworks))
+                ret['classwork_overall'] = sum(all_classworks) // len(all_classworks)
+            # all_homeworks = instance.submited_homework.exclude(grade=None).values_list('grade', flat=True)
+            # if (sum(all_homeworks) == 0):
+            #     ret['homework_overall'] = len(all_homeworks)
+            # else:
+            #     ret['homework_overall'] = sum(all_homeworks) // len(all_homeworks)
+            # if (sum(all_homeworks) == 0 and sum(all_quizes) == 0):
+            #     ret['overral'] = (len(all_quizes) + len(all_homeworks))
+            # else:
+            #     ret['overral'] = (sum(all_quizes) + sum(all_homeworks)) // (len(all_quizes) + len(all_homeworks))
             
 
             ret['number_of_classes'] = len(instance.user_students.all())

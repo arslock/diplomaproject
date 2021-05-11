@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 User = get_user_model()
-from classes.models import QuizModel, HomeWorkModel, MaterialModel, LessonModel
+from classes.models import QuizModel, ClassWork, MaterialModel, LessonModel
 # Create your models here.
 class QuizComments(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -13,11 +13,11 @@ class QuizComments(models.Model):
     def __str__(self):
         return self.comment
 
-class HomeWorkComments(models.Model):
+class ClassWorkComments(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    homework = models.ForeignKey(HomeWorkModel, on_delete=models.CASCADE)
+    classwork = models.ForeignKey(ClassWork, on_delete=models.CASCADE)
 
     
     def __str__(self):

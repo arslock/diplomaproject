@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .serializers import ClassSerializer, HomeWorkSerializer, AnnouncmentSerializer, \
+from .serializers import ClassSerializer, ClassWorkSerializer, AnnouncmentSerializer, \
 AnswerSerializer, AboutSerializer, LessonSerializer, MaterialSerializer, QuestionSerializer, QuizSerializer, ClassWorkSerializer, UserSerializer
 
-from .models import ClassModel, HomeWorkModel, Answer, Announcment, AboutClass, MaterialModel, QuizModel, Question, LessonModel
+from .models import ClassModel, Answer, Announcment, AboutClass, MaterialModel, QuizModel, Question, LessonModel, ClassWork
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.parsers import MultiPartParser
 from drf_yasg.utils import swagger_auto_schema
@@ -13,7 +13,7 @@ from django.db.models import Prefetch
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
-from submissions.models import SubmitHomeWork, SubmitQuiz
+from submissions.models import SubmitClassWork, SubmitQuiz
 User = get_user_model()
 from rest_framework.response import Response
 from rest_framework import status
@@ -28,29 +28,9 @@ class ClassWorkList(RetrieveAPIView):
     def get_queryset(self):
         return ClassModel.objects.prefetch_related(
         Prefetch(
-            'lesson_class', 
-            queryset=LessonModel.objects.all(),
-            to_attr='lesson_list'
-        ),
-        Prefetch(
-            'material_class',
-            queryset=MaterialModel.objects.all(),
-            to_attr='material_list'
-        ),
-        Prefetch(
-            'homework_class',
-            queryset=MaterialModel.objects.all(),
-            to_attr='homework_list'
-        ),
-        Prefetch(
-            'quiz_class',
-            queryset=QuizModel.objects.all(),
-            to_attr='quiz_list',
-        ),
-        Prefetch(
-            'announcment_class',
-            queryset=Announcment.objects.all(),
-            to_attr='announcment_list'
+            'class_work_list', 
+            queryset=ClassWork.objects.all(),
+            to_attr='class_work'
         )
     ).all()
     
@@ -80,15 +60,15 @@ class ClassStudentsListView(ListAPIView):
         return User.objects.filter(students__id=self.kwargs['class_id'])
 
 
-class HomeWorkViewSet(viewsets.ModelViewSet):
+class ClassWorkViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
-    serializer_class = HomeWorkSerializer
+    serializer_class = ClassWorkSerializer
     parser_classes = (MultiPartParser,)
-    queryset = HomeWorkModel.objects.prefetch_related(
+    queryset = ClassWork.objects.prefetch_related(
         Prefetch(
             'class_homework',
-            queryset=SubmitHomeWork.objects.all(),
-            to_attr='submited_homework_list'
+            queryset=SubmitClassWork.objects.all(),
+            to_attr='submited_classwork'
         )
     ).order_by()
 
