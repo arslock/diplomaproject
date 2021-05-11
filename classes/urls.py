@@ -12,6 +12,6 @@ router.register(r'homework', HomeWorkViewSet)
 router.register(r'about', AboutClassViewSet, basename='AnnouncmentViewSet')
 
 urlpatterns = [
-path('students/<int:class_id>', ClassStudentsListView.as_view(), name='class-students-list'),
-path('classwork/<int:id>', ClassWorkList.as_view(), name='class-work-list'),
+path('students/<int:class_id>/', ClassStudentsListView.as_view(), name='class-students-list'),
+path('classwork/<int:id>/', ClassWorkList.as_view(), name='class-work-list'),
 ] + router.urls

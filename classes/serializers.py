@@ -160,7 +160,6 @@ class AboutSerializer(serializers.ModelSerializer):
 
 
 class ClassWorkSerializer(serializers.ModelSerializer):
-    teacher = UserSerializer(read_only=True)
     class Meta:
         model = ClassModel
         fields = '__all__'
