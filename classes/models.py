@@ -111,8 +111,6 @@ class Answer(models.Model):
 
 class Announcment(models.Model):
     scratch_class = models.ForeignKey(ClassModel, on_delete=models.CASCADE, related_name='announcment_class')
-    
-    uploaded_file = models.FileField(null=True, blank=True)
     annoucment_text = models.TextField()
     is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
