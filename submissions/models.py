@@ -14,7 +14,7 @@ class SubmitQuiz(models.Model):
 
 class SubmitClassWork(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='submited_classwork')
-    homework = models.ForeignKey(ClassWork, on_delete=models.CASCADE, related_name='class_classwork')
+    classwork = models.ForeignKey(ClassWork, on_delete=models.CASCADE, related_name='class_classwork')
     grade = models.PositiveIntegerField(null=True, blank=True)
     uploaded_file = models.FileField()
     is_late = models.BooleanField(default=False)

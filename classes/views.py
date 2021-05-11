@@ -26,7 +26,7 @@ class ClassWorkList(RetrieveAPIView):
     serializer_class = ClassWorkSerializer
 
     def get_queryset(self):
-        return ClassModel.objects.prefetch_related(
+        return ClassWork.objects.prefetch_related(
         Prefetch(
             'class_work_list', 
             queryset=ClassWork.objects.all(),
@@ -66,7 +66,7 @@ class ClassWorkViewSet(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser,)
     queryset = ClassWork.objects.prefetch_related(
         Prefetch(
-            'class_homework',
+            'class_classwork',
             queryset=SubmitClassWork.objects.all(),
             to_attr='submited_classwork'
         )
