@@ -27,11 +27,16 @@ class UserSerializer(serializers.ModelSerializer):
 #         fields = '__all__'
 
 class ClassSerializer(serializers.ModelSerializer):
-    teacher = UserSerializer(read_only=True)
     class_id = serializers.CharField(read_only=True)
     class Meta:
         model = ClassModel
         fields = '__all__'
+        read_only_fields = ('teacher',)
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['teacher'] = UserSerializer(instance.teacher, context=self.context).data
+        return ret
 
 # class ClassStudentsSerializer(serializers.ModelSerializer):
 #     class Meta:
