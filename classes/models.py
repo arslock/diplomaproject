@@ -57,7 +57,7 @@ class HomeWorkModel(models.Model):
     description = models.TextField(null=True, blank=True)
     uploaded_file = models.FileField()
     due_date = models.DateTimeField()
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     
