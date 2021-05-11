@@ -5,7 +5,7 @@ from .serializers import ClassSerializer, HomeWorkSerializer, AnnouncmentSeriali
 AnswerSerializer, AboutSerializer, LessonSerializer, MaterialSerializer, QuestionSerializer, QuizSerializer, ClassWorkSerializer, UserSerializer
 
 from .models import ClassModel, HomeWorkModel, Answer, Announcment, AboutClass, MaterialModel, QuizModel, Question, LessonModel
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.parsers import MultiPartParser
 from drf_yasg.utils import swagger_auto_schema
 from scratchprojecct.tools import HEADER_PARAM, QUERY_CLASS_ID
@@ -21,36 +21,9 @@ from rest_framework import status
 
 
 
-class ClassWorkList(ListAPIView):
+class ClassWorkList(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ClassWorkSerializer
-    queryset = ClassModel.objects.prefetch_related(
-        Prefetch(
-            'lesson_class', 
-            queryset=LessonModel.objects.all(),
-            to_attr='lesson_list'
-        ),
-        Prefetch(
-            'material_class',
-            queryset=MaterialModel.objects.all(),
-            to_attr='material_list'
-        ),
-        Prefetch(
-            'homework_class',
-            queryset=MaterialModel.objects.all(),
-            to_attr='homework_list'
-        ),
-        Prefetch(
-            'quiz_class',
-            queryset=QuizModel.objects.all(),
-            to_attr='quiz_list',
-        ),
-        Prefetch(
-            'announcment_class',
-            queryset=Announcment.objects.all(),
-            to_attr='announcment_list'
-        )
-    ).all()
 
     def get_queryset(self):
         return ClassModel.objects.prefetch_related(
@@ -79,7 +52,8 @@ class ClassWorkList(ListAPIView):
             queryset=Announcment.objects.all(),
             to_attr='announcment_list'
         )
-    ).filter(id=self.kwargs['id'])
+    ).all()
+    
 
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
