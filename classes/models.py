@@ -16,7 +16,7 @@ class ClassModel(models.Model):
     class_name = models.CharField(max_length=250)
     subject = models.CharField(max_length=250)
     class_id = models.CharField(max_length=10)
-    
+    class_image = models.ImageField(blank=True, null=True)
     
     def __str__(self):
         return self.class_name
