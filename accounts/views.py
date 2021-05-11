@@ -34,9 +34,10 @@ class UserRegisterViewSet(CreateModelMixin, GenericViewSet):
 class UserProfileView(ListAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = None
     queryset = User.objects.all()
     def get_queryset(self):
-        return User.objects.filter(user__id=self.kwargs['user_id'])
+        return User.objects.filter(id=self.kwargs['user_id'])
 
 
 # class StudentProfileView(RetrieveAPIView):
@@ -49,6 +50,7 @@ class UserProfileView(ListAPIView):
 class ProfileViewSet(GenericViewSet):
     serializer_class = UserEditSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = None
     queryset = User.objects.all()
     parser_classes = (MultiPartParser,)
 

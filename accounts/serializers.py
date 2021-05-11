@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from .models import User
 import os
-
+from classes.models import ClassModel
 from django.core.mail import send_mail
 
 
@@ -60,11 +60,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
         'is_superuser', 'is_staff', 'is_active',  
         'updated_at', 'date_joined', 'role_type')
 
-
+class TeachersClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassModel
+        fields = ('id', 'class_name')
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserEditSerializer(many=False)
     class Meta:
         model = User
         fields = "__all__"
@@ -85,6 +87,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 ret['homework_overall'] = sum(all_homeworks) // len(all_homeworks)
             return ret
         else:
+            ret['number_of_classes'] = len(instance.user_teacher.all())
+            ret['number_of_public_classes'] = len(instance.user_teacher.filter(class_type='public'))
+            ret['number_of_private_classes'] = len(instance.user_teacher.filter(class_type='private'))
+            ret['number_of_students'] = len(instance.user_teacher.all().values_list('students', flat=True))
+            ret['number_of_students_public'] = len(instance.user_teacher.filter(class_type='public').values_list('students', flat=True))
+            ret['number_of_students_private'] = len(instance.user_teacher.filter(class_type='private').values_list('students', flat=True))
+            ret['classes'] = TeachersClassSerializer(instance.user_teacher.all(), many=True).data
             return ret
 
 
