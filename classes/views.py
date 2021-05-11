@@ -26,7 +26,16 @@ class ClassWorkList(RetrieveAPIView):
     serializer_class = ClassWorkSerializer
 
     def get_queryset(self):
-        return ClassWork.objects.all()
+        extra_kwargs = {}
+        if self.request.query_params.get('class'):
+            extra_kwargs['scratch_class_id'] = self.request.query_params.get('class')
+        return ClassWork.objects.filter(**extra_kwargs)
+
+    @swagger_auto_schema(operation_description="Get classworks of class",
+                         manual_parameters=[QUERY_CLASS_ID],
+                         responses={201: 'Created', 401: 'Permission denied', 400: 'Bad request body'})  
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
     
 
 class ClassViewSet(viewsets.ModelViewSet):
