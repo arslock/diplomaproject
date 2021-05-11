@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from accounts.models import TeacherUser, StudentUser
+# from accounts.models import TeacherUser, StudentUser
 User = get_user_model()
 
 # Create your models here.
@@ -10,8 +10,8 @@ class ClassModel(models.Model):
         PRIVATE = 'private', _('private')
         PUBLIC = 'public', _('public')
 
-    teacher = models.ForeignKey(TeacherUser, on_delete=models.CASCADE, related_name='user_teacher')
-    students = models.ManyToManyField(StudentUser, related_name='user_students', blank=True)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_teacher')
+    students = models.ManyToManyField(User, related_name='user_students', blank=True)
     class_type = models.CharField(max_length=50, choices=ClassType.choices)
     class_name = models.CharField(max_length=250)
     subject = models.CharField(max_length=250)

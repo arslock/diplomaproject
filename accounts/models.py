@@ -58,6 +58,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     role_type = models.CharField(max_length=50, choices=RoleChoice.choices, null=True, blank=True)
 
+    specific_field = models.CharField(max_length=250, null=True, blank=True)
+
 
     USERNAME_FIELD = 'email'
 
@@ -67,16 +69,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class TeacherUser(models.Model):
-    user = models.OneToOneField('User', on_delete=models.CASCADE)
-    job_position = models.CharField(max_length=250, null=True, blank=True)
+# class TeacherUser(models.Model):
+#     user = models.OneToOneField('User', on_delete=models.CASCADE)
+#     job_position = models.CharField(max_length=250, null=True, blank=True)
 
-    def __str__(self):
-        return self.user.email
+#     def __str__(self):
+#         return self.user.email
     
-class StudentUser(models.Model):
-    user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='students')
-    student_grade = models.CharField(max_length=250, null=True, blank=True)
+# class StudentUser(models.Model):
+#     user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='students')
+#     student_grade = models.CharField(max_length=250, null=True, blank=True)
     
-    def __str__(self):
-        return self.user.email
+#     def __str__(self):
+#         return self.user.email

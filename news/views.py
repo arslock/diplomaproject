@@ -4,14 +4,18 @@ from django.shortcuts import render
 from .models import News
 from .serializers import NewsSerializer
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.parsers import MultiPartParser
 
 class NewsViewSet(viewsets.ModelViewSet):
     serializer_class = NewsSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     parser_classes = (MultiPartParser,)
-
     queryset = News.objects.all()
 
-    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

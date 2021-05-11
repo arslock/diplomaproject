@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, TeacherUser, StudentUser
+from .models import User
 import os
 
 from django.core.mail import send_mail
@@ -50,7 +50,7 @@ class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', 'first_name', 'last_name', 'bio',
-         'avatar', 'cover_image','is_active', 'updated_at', 'date_joined', 'role_type')
+         'avatar', 'cover_image','is_active', 'updated_at', 'date_joined', 'role_type', 'specific_field')
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -61,32 +61,31 @@ class UserDetailSerializer(serializers.ModelSerializer):
         'updated_at', 'date_joined', 'role_type')
 
 
-class TeacherProfileSerializer(serializers.ModelSerializer):
-    user = UserEditSerializer()
-    class Meta:
-        model = TeacherUser
-        fields = "__all__"
 
-class StudentProfileSerializer(serializers.ModelSerializer):
+
+class UserProfileSerializer(serializers.ModelSerializer):
     user = UserEditSerializer(many=False)
     class Meta:
-        model = StudentUser
+        model = User
         fields = "__all__"
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
+        if instance.role_type == 'student':
 
-        all_quizes = instance.submited_quizes.exclude(grade=None).values_list('grade', flat=True)
-        if (sum(all_quizes) == 0):
-            ret['quiz_overall'] = len(all_quizes)
-        else: 
-            ret['quiz_overall'] = sum(all_quizes) // len(all_quizes)
-        all_homeworks = instance.submited_homework.exclude(grade=None).values_list('grade', flat=True)
-        if (sum(all_homeworks) == 0):
-            ret['homework_overall'] = len(all_homeworks)
+            all_quizes = instance.submited_quizes.exclude(grade=None).values_list('grade', flat=True)
+            if (sum(all_quizes) == 0):
+                ret['quiz_overall'] = len(all_quizes)
+            else: 
+                ret['quiz_overall'] = sum(all_quizes) // len(all_quizes)
+            all_homeworks = instance.submited_homework.exclude(grade=None).values_list('grade', flat=True)
+            if (sum(all_homeworks) == 0):
+                ret['homework_overall'] = len(all_homeworks)
+            else:
+                ret['homework_overall'] = sum(all_homeworks) // len(all_homeworks)
+            return ret
         else:
-            ret['homework_overall'] = sum(all_homeworks) // len(all_homeworks)
-        return ret
+            return ret
 
 
 class ProfilePasswordSerializer(serializers.ModelSerializer):

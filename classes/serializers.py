@@ -4,44 +4,45 @@ from .models import ClassModel, HomeWorkModel, Question, QuizModel, Announcment,
 import string
 import random
 from django.contrib.auth import get_user_model
-from accounts.models import TeacherUser, User, StudentUser
+# from accounts.models import TeacherUser, User, StudentUser
 from submissions.serializers import SubmitQuizSerializer, SubmitHomeWorkSerializer
+from accounts.models import User
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'avatar')
+        fields = ('id', 'first_name', 'last_name', 'email', 'avatar')
 
-class TeacherUserSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    class Meta:
-        model = TeacherUser
-        fields = "__all__"
+# class TeacherUserSerializer(serializers.ModelSerializer):
+#     user = UserSerializer()
+#     class Meta:
+#         model = TeacherUser
+#         fields = "__all__"
 
-class ClassTeacherSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    class Meta:
-        model = TeacherUser
-        fields = '__all__'
+# class ClassTeacherSerializer(serializers.ModelSerializer):
+#     user = UserSerializer()
+#     class Meta:
+#         model = TeacherUser
+#         fields = '__all__'
 
 class ClassSerializer(serializers.ModelSerializer):
-    teacher = ClassTeacherSerializer(read_only=True)
+    teacher = UserSerializer(read_only=True)
     class_id = serializers.CharField(read_only=True)
     class Meta:
         model = ClassModel
         fields = '__all__'
 
-class ClassStudentsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'role_type', 'avatar')
+# class ClassStudentsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('first_name', 'last_name', 'role_type', 'avatar')
 
-class StudentUserSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    class Meta:
-        model = StudentUser
-        exclude = ['student_grade']
+# class StudentUserSerializer(serializers.ModelSerializer):
+#     user = UserSerializer()
+#     class Meta:
+#         model = StudentUser
+#         exclude = ['student_grade']
 
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -154,7 +155,7 @@ class AboutSerializer(serializers.ModelSerializer):
 
 
 class ClassWorkSerializer(serializers.ModelSerializer):
-    teacher = TeacherUserSerializer()
+    teacher = UserSerializer()
     class Meta:
         model = ClassModel
         fields = '__all__'

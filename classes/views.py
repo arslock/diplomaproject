@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from .serializers import ClassSerializer, HomeWorkSerializer, AnnouncmentSerializer, \
-AnswerSerializer, AboutSerializer, LessonSerializer, MaterialSerializer, QuestionSerializer, QuizSerializer, ClassStudentsSerializer, ClassWorkSerializer
+AnswerSerializer, AboutSerializer, LessonSerializer, MaterialSerializer, QuestionSerializer, QuizSerializer, ClassWorkSerializer, UserSerializer
 
 from .models import ClassModel, HomeWorkModel, Answer, Announcment, AboutClass, MaterialModel, QuizModel, Question, LessonModel
 from rest_framework.generics import ListAPIView
@@ -88,7 +88,7 @@ class ClassViewSet(viewsets.ModelViewSet):
 
 class ClassStudentsListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = ClassStudentsSerializer
+    serializer_class = UserSerializer
     queryset = User.objects.all()
 
     def get_queryset(self):

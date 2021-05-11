@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from drf_yasg.utils import swagger_auto_schema
 
-from .models import User, TeacherUser, StudentUser
+from .models import User
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import UserEditSerializer, ProfilePasswordSerializer, UserDetailSerializer, UserRegisterSerializer, TeacherProfileSerializer, StudentProfileSerializer
+from .serializers import UserEditSerializer, ProfilePasswordSerializer, UserDetailSerializer, UserRegisterSerializer, UserProfileSerializer
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, DestroyModelMixin
 from scratchprojecct.tools import HEADER_PARAM
 from rest_framework.response import Response
@@ -23,10 +23,7 @@ class UserRegisterViewSet(CreateModelMixin, GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        if user.role_type == 'teacher':
-            TeacherUser.objects.create(user=user)
-        else:
-            StudentUser.objects.create(user=user)
+        
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -34,18 +31,19 @@ class UserRegisterViewSet(CreateModelMixin, GenericViewSet):
 
 
 
-class TeacherProfileView(ListAPIView):
-    serializer_class = TeacherProfileSerializer
+class UserProfileView(ListAPIView):
+    serializer_class = UserProfileSerializer
     permission_classes = (IsAuthenticated,)
-    queryset = TeacherUser.objects.all()
+    queryset = User.objects.all()
     def get_queryset(self):
-        return TeacherUser.objects.filter(user__id=self.kwargs['user_id'])
+        return User.objects.filter(user__id=self.kwargs['user_id'])
 
 
-class StudentProfileView(RetrieveAPIView):
-    serializer_class = StudentProfileSerializer
-    permission_classes = (IsAuthenticated,)
-    queryset = StudentUser.objects.all()
+# class StudentProfileView(RetrieveAPIView):
+#     serializer_class = StudentProfileSerializer
+#     permission_classes = (IsAuthenticated,)
+#     queryset = StudentUser.objects.all()
+
 
 
 class ProfileViewSet(GenericViewSet):
