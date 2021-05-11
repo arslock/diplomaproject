@@ -13,13 +13,13 @@ from accounts.models import User
 #         model = StudentUser
 #         exclude = ['student_grade']
 
-class UserSerializer(serializers.ModelSerializer):
+class StudentUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'first_name', 'last_name', 'email', 'avatar', 'specific_field')
 
 class SubmitQuizSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+    author = StudentUserSerializer(read_only=True)
     class Meta:
         model = SubmitQuiz
         fields = "__all__"
@@ -28,7 +28,7 @@ class SubmitQuizSerializer(serializers.ModelSerializer):
             }
 
 class SubmitHomeWorkSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+    author = StudentUserSerializer(read_only=True)
     class Meta:
         model = SubmitHomeWork
         fields = "__all__"
