@@ -63,7 +63,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 class TeachersClassSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassModel
-        fields = ('id', 'class_name')
+        fields = ('id', 'class_name', 'class_image')
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
