@@ -121,7 +121,6 @@ class HomeWorkViewSet(viewsets.ModelViewSet):
 class AnnouncmentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = AnnouncmentSerializer
-    parser_classes = (MultiPartParser,)
 
     
     def get_queryset(self):
