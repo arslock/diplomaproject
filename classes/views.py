@@ -26,13 +26,7 @@ class ClassWorkList(RetrieveAPIView):
     serializer_class = ClassWorkSerializer
 
     def get_queryset(self):
-        return ClassWork.objects.prefetch_related(
-        Prefetch(
-            'class_work_list', 
-            queryset=ClassWork.objects.all(),
-            to_attr='class_work'
-        )
-    ).all()
+        return ClassWork.objects.all()
     
 
 class ClassViewSet(viewsets.ModelViewSet):

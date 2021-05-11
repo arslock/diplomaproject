@@ -164,25 +164,25 @@ class ClassWorkSerializer(serializers.ModelSerializer):
         model = ClassWork
         fields = '__all__'
 
-    def to_representation(self, instance):
-        ls = []
+    # def to_representation(self, instance):
+    #     ls = []
 
-        ret = super().to_representation(instance)
-        if hasattr(instance, 'lesson_list'):
-            ls.extend(LessonSerializer(instance.lesson_list, many=True, context=self.context).data)
-            # ret['lessons'] = LessonSerializer(instance.lesson_list, many=True).data
-        if hasattr(instance, 'homework_list'):
-            ls.extend(HomeWorkSerializer(instance.homework_list, many=True, context=self.context).data)
-            # ret['homeworks'] = HomeWorkSerializer(instance.homework_list, many=True).data
-        if hasattr(instance, 'quiz_list'):
-            ls.extend(QuizSerializer(instance.quiz_list, many=True, context=self.context).data)
-            # ret['quizes'] = QuizSerializer(instance.quiz_list, many=True).data
-        # if hasattr(instance, 'announcment_list'):
-        #     ls.extend(AnnouncmentSerializer(instance.announcment_list, many=True).data)
-        #     # ret['announcments'] = AnnouncmentSerializer(instance.announcment_list, many=True).data
-        if hasattr(instance, 'material_list'):
-            ls.extend(MaterialSerializer(instance.material_list, many=True, context=self.context).data)
-            # ret['materials'] = MaterialSerializer(instance.material_list, many=True).data
-        sorted_ls = sorted(ls, key=lambda x: x['created_at'], reverse=True)
-        ret['classwork'] = sorted_ls
-        return ret
+    #     ret = super().to_representation(instance)
+    #     if hasattr(instance, 'lesson_list'):
+    #         ls.extend(LessonSerializer(instance.lesson_list, many=True, context=self.context).data)
+    #         # ret['lessons'] = LessonSerializer(instance.lesson_list, many=True).data
+    #     if hasattr(instance, 'homework_list'):
+    #         ls.extend(HomeWorkSerializer(instance.homework_list, many=True, context=self.context).data)
+    #         # ret['homeworks'] = HomeWorkSerializer(instance.homework_list, many=True).data
+    #     if hasattr(instance, 'quiz_list'):
+    #         ls.extend(QuizSerializer(instance.quiz_list, many=True, context=self.context).data)
+    #         # ret['quizes'] = QuizSerializer(instance.quiz_list, many=True).data
+    #     # if hasattr(instance, 'announcment_list'):
+    #     #     ls.extend(AnnouncmentSerializer(instance.announcment_list, many=True).data)
+    #     #     # ret['announcments'] = AnnouncmentSerializer(instance.announcment_list, many=True).data
+    #     if hasattr(instance, 'material_list'):
+    #         ls.extend(MaterialSerializer(instance.material_list, many=True, context=self.context).data)
+    #         # ret['materials'] = MaterialSerializer(instance.material_list, many=True).data
+    #     sorted_ls = sorted(ls, key=lambda x: x['created_at'], reverse=True)
+    #     ret['classwork'] = sorted_ls
+    #     return ret
