@@ -94,7 +94,7 @@ class QuizSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         # ret['students'] = StudentUserSerializer(instance.scratch_class.students.all(), many=True).data
         if hasattr(instance, 'submited_quizes_list'):
-            ret['submited_quizes'] = SubmitQuizSerializer(instance.submited_quizes_list, many=True).data
+            ret['submited_quizes'] = SubmitQuizSerializer(instance.submited_quizes_list, many=True, context=self.context).data
         ret['object_type'] = 'quiz'
         return ret
 
@@ -107,7 +107,7 @@ class HomeWorkSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         ret['object_type'] = 'homework'
         if hasattr(instance, 'submited_homework_list'):
-            ret['submited_homeworks'] = SubmitHomeWorkSerializer(instance.submited_homework_list, many=True).data
+            ret['submited_homeworks'] = SubmitHomeWorkSerializer(instance.submited_homework_list, many=True, context=self.context).data
         return ret
 
 

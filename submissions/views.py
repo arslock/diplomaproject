@@ -23,6 +23,8 @@ class SubmitHomeWorkViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+   
+
 class SubmitQuizViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = SubmitQuizSerializer
@@ -36,3 +38,5 @@ class SubmitQuizViewSet(viewsets.ModelViewSet):
         serializer.save(author=request.user)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+   

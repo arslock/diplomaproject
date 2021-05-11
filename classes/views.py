@@ -84,6 +84,8 @@ class ClassWorkList(ListAPIView):
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = ClassSerializer
+    parser_classes = (MultiPartParser,)
+
     queryset = ClassModel.objects.all()
 
     def create(self, request, *args, **kwargs):
