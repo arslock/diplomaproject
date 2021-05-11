@@ -8,7 +8,7 @@ class News(models.Model):
     text = models.TextField()
     main_image = models.ImageField()
     created_date = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='news')
 
     class Meta:
         ordering = ['-created_date']

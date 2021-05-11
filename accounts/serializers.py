@@ -4,7 +4,7 @@ from .models import User
 import os
 from classes.models import ClassModel
 from django.core.mail import send_mail
-
+from news.serializers import NewsSerializer
 
 
 
@@ -103,6 +103,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             ret['number_of_students_public'] = len(instance.user_teacher.filter(class_type='public').values_list('students', flat=True))
             ret['number_of_students_private'] = len(instance.user_teacher.filter(class_type='private').values_list('students', flat=True))
             ret['classes'] = TeachersClassSerializer(instance.user_teacher.all(), many=True).data
+            ret['sharings'] = NewsSerializer(instance.news.all(), many=True).data
             return ret
 
 
