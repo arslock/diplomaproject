@@ -8,7 +8,7 @@ from .models import ClassModel, HomeWorkModel, Answer, Announcment, AboutClass, 
 from rest_framework.generics import ListAPIView
 from rest_framework.parsers import MultiPartParser
 from drf_yasg.utils import swagger_auto_schema
-from scratchprojecct.tools import HEADER_PARAM
+from scratchprojecct.tools import HEADER_PARAM, QUERY_CLASS_ID
 from django.db.models import Prefetch
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -122,7 +122,19 @@ class AnnouncmentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = AnnouncmentSerializer
     parser_classes = (MultiPartParser,)
-    queryset = Announcment.objects.all()
+
+    
+    def get_queryset(self):
+        extra_kwargs = {}
+        if self.request.query_params.get('class'):
+            extra_kwargs['scratch_class_id'] = self.request.query_params.get('class')
+        return Announcment.objects.filter(**extra_kwargs)
+
+    @swagger_auto_schema(operation_description="Get announcment of class",
+                         manual_parameters=[QUERY_CLASS_ID],
+                         responses={201: 'Created', 401: 'Permission denied', 400: 'Bad request body'})  
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 class QuizViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)

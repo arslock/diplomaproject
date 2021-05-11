@@ -7,3 +7,4 @@ HEADER_PARAM = openapi.Parameter('Authorization', openapi.IN_HEADER, description
                                  type=openapi.TYPE_STRING)
 
                         
+QUERY_CLASS_ID = openapi.Parameter('class', openapi.IN_QUERY, description='Class id', type=openapi.TYPE_STRING)

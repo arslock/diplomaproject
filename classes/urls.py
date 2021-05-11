@@ -4,7 +4,7 @@ from .views import ClassViewSet, AnnouncmentViewSet, ClassStudentsListView, Quiz
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'class', ClassViewSet)
-router.register(r'announcment', AnnouncmentViewSet)
+router.register(r'announcment', AnnouncmentViewSet, basename='AnnouncmentViewSet')
 router.register(r'quiz', QuizViewSet)
 router.register(r'material', MaterialViewSet)
 router.register(r'lesson', LessonViewSet)
