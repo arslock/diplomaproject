@@ -19,23 +19,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-
-
-class ClassWorkList(RetrieveAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = ClassWorkSerializer
-
-    def get_queryset(self):
-        extra_kwargs = {}
-        if self.request.query_params.get('class'):
-            extra_kwargs['scratch_class_id'] = self.request.query_params.get('class')
-        return ClassWork.objects.filter(**extra_kwargs)
-
-    @swagger_auto_schema(operation_description="Get classworks of class",
-                         manual_parameters=[QUERY_CLASS_ID],
-                         responses={201: 'Created', 401: 'Permission denied', 400: 'Bad request body'})  
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
     
 
 class ClassViewSet(viewsets.ModelViewSet):
@@ -112,16 +95,7 @@ class AnnouncmentViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-class QuizViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = QuizSerializer
-    queryset = QuizModel.objects.prefetch_related(
-        Prefetch(
-            'class_quiz',
-            queryset=SubmitQuiz.objects.all(),
-            to_attr='submited_quizes_list'
-        )
-    ).order_by()
+
 
 
 class AboutClassViewSet(viewsets.ModelViewSet):
@@ -141,14 +115,3 @@ class AboutClassViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-class MaterialViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = MaterialSerializer
-    parser_classes = (MultiPartParser,)
-    queryset = MaterialModel.objects.all()
-
-class LessonViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = LessonSerializer
-    parser_classes = (MultiPartParser,)
-    queryset = LessonModel.objects.all()
