@@ -103,7 +103,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             ret['number_of_students_public'] = len(instance.user_teacher.filter(class_type='public').values_list('students', flat=True))
             ret['number_of_students_private'] = len(instance.user_teacher.filter(class_type='private').values_list('students', flat=True))
             ret['classes'] = TeachersClassSerializer(instance.user_teacher.all(), many=True, context=self.context).data
-            ret['sharings'] = NewsSerializer(instance.news.all(), many=True, context=self.context).data
             return ret
 
 
