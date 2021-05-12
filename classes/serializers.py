@@ -103,12 +103,11 @@ class ClassWorkSerializer(serializers.ModelSerializer):
         model = ClassWork
         fields = '__all__'
 
-    def to_representation(self, instance):
-        ret = super().to_representation(instance)
-        ret['object_type'] = 'classwork'
-        if hasattr(instance, 'submited_classwork'):
-            ret['submited_classwork'] = SubmitClassWorkSerializer(instance.submited_classwork, many=True, context=self.context).data
-        return ret
+    # def to_representation(self, instance):
+    #     ret = super().to_representation(instance)
+    #     if hasattr(instance, 'submited_classwork'):
+    #         ret['submited_classwork'] = SubmitClassWorkSerializer(instance.submited_classwork, many=True, context=self.context).data
+    #     return ret
 
 
 

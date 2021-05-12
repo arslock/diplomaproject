@@ -67,23 +67,34 @@ class ClassWorkViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = ClassWorkSerializer
     parser_classes = (MultiPartParser,)
-    queryset = ClassWork.objects.prefetch_related(
-        Prefetch(
-            'class_classwork',
-            queryset=SubmitClassWork.objects.all(),
-            to_attr='submited_classwork'
-        )
-    ).order_by()
+    queryset = ClassWork.objects.order_by()
+    # prefetch_related(
+        # Prefetch(
+        #     'class_classwork',
+        #     queryset=SubmitClassWork.objects.all(),
+        #     to_attr='submited_classwork'
+        # ))
 
+    # def get_queryset(self):
+    #     return ClassWork.objects.prefetch_related(
+    #        Prefetch(
+    #         'class_classwork',
+    #         queryset=SubmitClassWork.objects.all(),
+    #         to_attr='submited_classwork'
+    #     )
+    #     ).order_by()
     def get_queryset(self):
-        return ClassWork.objects.prefetch_related(
-           Prefetch(
-            'class_classwork',
-            queryset=SubmitClassWork.objects.all(),
-            to_attr='submited_classwork'
-        )
-        ).order_by()
-        
+        extra_kwargs = {}
+        if self.request.query_params.get('class'):
+            extra_kwargs['scratch_class_id'] = self.request.query_params.get('class')
+        return ClassWork.objects.filter(**extra_kwargs)
+
+    @swagger_auto_schema(operation_description="Get classworks of class",
+                         manual_parameters=[QUERY_CLASS_ID],
+                         responses={201: 'Created', 401: 'Permission denied', 400: 'Bad request body'})  
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 class AnnouncmentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = AnnouncmentSerializer
