@@ -104,7 +104,7 @@ class StudentUserListView(ListAPIView):
     pagination_class = JsonApiPageNumberPagination
 
     def get_queryset(self):
-        return User.objects.filter(~Q(id=self.kwargs['class_id']) & Q(role_type='student'))
+        return User.objects.filter(~Q(user_students__id=self.kwargs['class_id']) & Q(role_type='student'))
 
 
 class UserUpdateView(UpdateModelMixin, GenericViewSet):
