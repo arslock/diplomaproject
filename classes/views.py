@@ -48,7 +48,7 @@ class ClassStudentsListView(ListAPIView):
     queryset = User.objects.all()
 
     def get_queryset(self):
-        return User.objects.filter(id=self.kwargs['class_id'])
+        return User.objects.filter(user_students__id=self.kwargs['class_id'])
 
 
 class ClassWorkViewSet(viewsets.ModelViewSet):
