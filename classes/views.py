@@ -1,8 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .serializers import ClassSerializer, ClassWorkSerializer, AnnouncmentSerializer, \
-AnswerSerializer, AboutSerializer, LessonSerializer, MaterialSerializer, QuestionSerializer, QuizSerializer, ClassWorkSerializer, UserSerializer
+from .serializers import ClassSerializer, ClassWorkSerializer, AnnouncmentSerializer, AboutSerializer, ClassWorkSerializer, UserSerializer
 
 from .models import ClassModel, Answer, Announcment, AboutClass, MaterialModel, QuizModel, Question, LessonModel, ClassWork
 from rest_framework.generics import ListAPIView, RetrieveAPIView
