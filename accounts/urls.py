@@ -25,6 +25,6 @@ path('profile/', ProfileViewSet.as_view({'get': 'profile', 'put': 'update'})),
 path('user-profile/<int:user_id>', UserProfileView.as_view()),
 path('change/password/', ChangePasswordViewSet.as_view({'post': 'change'})),
 path('user-list/', UserListView.as_view()),
-path('student-list/', StudentUserListView.as_view()),
+path('student-list/<int:class_id>', StudentUserListView.as_view()),
 ] + router.urls
 

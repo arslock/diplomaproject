@@ -12,6 +12,7 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIView
 from rest_framework_json_api.pagination import JsonApiPageNumberPagination
 from rest_framework.parsers import MultiPartParser
+from django.db.models import Q
 
 # Create your views here.
 class UserRegisterViewSet(CreateModelMixin, GenericViewSet):
@@ -101,13 +102,9 @@ class StudentUserListView(ListAPIView):
     serializer_class = UserDetailSerializer
     permission_classes = (IsAuthenticated,)
     pagination_class = JsonApiPageNumberPagination
-    queryset = User.objects.filter(role_type='student')
 
-    @swagger_auto_schema(operation_description="Get user list",
-                         manual_parameters=[HEADER_PARAM],
-                         responses={201: 'Created', 401: 'Permission denied', 400: 'Bad request body'})
-    def get(self, request):
-        return super().get(request)
+    def get_queryset(self):
+        return User.objects.filter(~Q(id=self.kwargs['class_id']) & Q(role_type='student'))
 
 
 class UserUpdateView(UpdateModelMixin, GenericViewSet):
