@@ -6,7 +6,7 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import UserEditSerializer, ProfilePasswordSerializer, UserDetailSerializer, UserRegisterSerializer, UserProfileSerializer
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, DestroyModelMixin
-from scratchprojecct.tools import HEADER_PARAM
+from scratchprojecct.tools import HEADER_PARAM, QUERY_CLASS_ID
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIView
@@ -103,9 +103,21 @@ class StudentUserListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     pagination_class = JsonApiPageNumberPagination
 
+    
+    
     def get_queryset(self):
-        return User.objects.filter(~Q(user_students__id=self.kwargs['class_id']) & Q(role_type='student'))
+        extra_kwargs = {}
+        filters = Q()
+        if self.request.query_params.get('class'):
+            filters = ~Q(user_students__id=self.request.query_params.get('class'))
+        return User.objects.filter(Q(role_type='student') & filters)
+        # return User.objects.filter(Q(role_type='student'))
 
+    @swagger_auto_schema(operation_description="Update user using put",
+                         manual_parameters=[QUERY_CLASS_ID],
+                         responses={201: 'Created', 401: 'Permission denied', 400: 'Bad request body'})  
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 class UserUpdateView(UpdateModelMixin, GenericViewSet):
     serializer_class = UserEditSerializer

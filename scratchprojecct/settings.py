@@ -93,8 +93,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework_json_api.pagination.JsonApiPageNumberPagination',
     'DEFAULT_METADATA_CLASS': 'rest_framework_json_api.metadata.JSONAPIMetadata',
-    'DATETIME_FORMAT': '%s', 
-    'DATE_FORMAT': "%s",
+    # 'DATETIME_FORMAT': '%s', 
+    # 'DATE_FORMAT': "%s",
     'PAGE_SIZE': 25,
 }
 
