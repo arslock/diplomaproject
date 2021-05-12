@@ -9,6 +9,11 @@ from submissions.serializers import SubmitQuizSerializer, SubmitClassWorkSeriali
 from accounts.models import User
 User = get_user_model()
 
+class SerializerForImage(serializers.ModelSerializer):
+    class Meta:
+        model = ClassModel
+        fields = ('class_image',)
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

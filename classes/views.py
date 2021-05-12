@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .serializers import ClassSerializer, ClassWorkSerializer, AnnouncmentSerializer, AboutSerializer, ClassWorkSerializer, UserSerializer
+from .serializers import ClassSerializer, ClassWorkSerializer, AnnouncmentSerializer, AboutSerializer, ClassWorkSerializer, UserSerializer, SerializerForImage
 
 from .models import ClassModel, Answer, Announcment, AboutClass, MaterialModel, QuizModel, Question, LessonModel, ClassWork
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -16,6 +16,8 @@ from submissions.models import SubmitClassWork, SubmitQuiz
 User = get_user_model()
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.mixins import UpdateModelMixin, CreateModelMixin, DestroyModelMixin
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 
     
@@ -23,7 +25,7 @@ from rest_framework import status
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = ClassSerializer
-    parser_classes = (MultiPartParser,JSONParser,FormParser,)
+    parser_classes = (JSONParser,FormParser,)
 
     queryset = ClassModel.objects.all()
 
@@ -34,7 +36,11 @@ class ClassViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-
+class UploadImageForClass(UpdateModelMixin, GenericViewSet):
+    serializer_class = SerializerForImage
+    permission_classes = (IsAuthenticated,)
+    parser_classes = (MultiPartParser,)
+    queryset = ClassModel.objects.all()
 
 class ClassStudentsListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
