@@ -5,7 +5,7 @@ from .serializers import ClassSerializer, ClassWorkSerializer, AnnouncmentSerial
 
 from .models import ClassModel, Answer, Announcment, AboutClass, MaterialModel, QuizModel, Question, LessonModel, ClassWork
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
 from drf_yasg.utils import swagger_auto_schema
 from scratchprojecct.tools import HEADER_PARAM, QUERY_CLASS_ID
 from django.db.models import Prefetch
@@ -23,7 +23,7 @@ from rest_framework import status
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = ClassSerializer
-    parser_classes = (MultiPartParser,)
+    parser_classes = (MultiPartParser,JSONParser,FormParser,)
 
     queryset = ClassModel.objects.all()
 
