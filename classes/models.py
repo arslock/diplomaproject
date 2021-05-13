@@ -17,6 +17,10 @@ class ClassModel(models.Model):
     subject = models.CharField(max_length=250)
     class_id = models.CharField(max_length=10)
     class_image = models.ImageField(blank=True, null=True)
+
+    syllabus = models.JSONField(blank=True, null=True)
+    about_course = models.TextField(blank=True, null=True)
+
     
     def __str__(self):
         return self.class_name

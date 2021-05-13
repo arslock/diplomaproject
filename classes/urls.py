@@ -6,7 +6,7 @@ router = DefaultRouter()
 router.register(r'class', ClassViewSet)
 router.register(r'announcment', AnnouncmentViewSet, basename='AnnouncmentViewSet')
 router.register(r'classworkes', ClassWorkViewSet, basename='ClassWorkViewSet')
-router.register(r'about', AboutClassViewSet, basename='AnnouncmentViewSet')
+# router.register(r'about', AboutClassViewSet, basename='AnnouncmentViewSet')
 router.register(r'class-image', UploadImageForClass)
 
 urlpatterns = [
