@@ -52,7 +52,12 @@ class ClassWorkSerializer(serializers.ModelSerializer):
         model = ClassWork
         fields = '__all__'
 
-
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        print(instance.file_size())
+        file_size_in_mb = instance.file_size() / 1024
+        ret['file_size'] = round(file_size_in_mb, 2)
+        return ret
 
 
 

@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 # from accounts.models import TeacherUser, StudentUser
 User = get_user_model()
+import os
 
 # Create your models here.
 class ClassModel(models.Model):
@@ -24,7 +25,6 @@ class ClassModel(models.Model):
     
     def __str__(self):
         return self.class_name
-    
     
     
 
@@ -78,6 +78,9 @@ class ClassWork(models.Model):
 
     def __str__(self):
         return self.title
+
+    def file_size(self):
+        return os.path.getsize('media/'+str(self.uploaded_file))
 
 class QuizModel(models.Model):
     scratch_class = models.ForeignKey(ClassModel, on_delete=models.CASCADE, related_name='quiz_class')
