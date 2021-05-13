@@ -77,7 +77,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
             all_classworks = instance.submited_classwork.exclude(grade=None).values_list('grade', flat=True)
             if (sum(all_classworks) == 0):
-                ret['classwork_overall'] = len(all_quizes)
+                ret['classwork_overall'] = len(all_classworks)
             else: 
                 ret['classwork_overall'] = sum(all_classworks) // len(all_classworks)
             # all_homeworks = instance.submited_homework.exclude(grade=None).values_list('grade', flat=True)
