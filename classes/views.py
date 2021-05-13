@@ -114,7 +114,7 @@ class AboutClassViewSet(viewsets.ModelViewSet):
             extra_kwargs['scratch_class_id'] = self.request.query_params.get('class')
         return AboutClass.objects.filter(**extra_kwargs)
 
-    @swagger_auto_schema(operation_description="Get announcment of class",
+    @swagger_auto_schema(operation_description="Get about of class",
                          manual_parameters=[QUERY_CLASS_ID],
                          responses={201: 'Created', 401: 'Permission denied', 400: 'Bad request body'})  
     def list(self, request, *args, **kwargs):

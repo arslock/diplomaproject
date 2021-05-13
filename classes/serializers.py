@@ -42,6 +42,8 @@ class ClassSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         ret['teacher'] = UserSerializer(instance.teacher, context=self.context).data
         return ret
+    
+    # def update(self, instanc)
 
 
 
@@ -73,10 +75,12 @@ class AboutSerializer(serializers.ModelSerializer):
     class Meta:
         model = AboutClass
         fields = "__all__"
+        read_only_fields = ('teacher',)
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         ret['object_type'] = 'about class'
+        ret['teacher'] = UserSerializer(instance.teacher, context=self.context).data
         return ret
 
 

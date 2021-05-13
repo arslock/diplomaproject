@@ -136,7 +136,7 @@ class AboutClass(models.Model):
         KAZAKH = 'kazakh', _('kazakh')
 
     language_type = models.CharField(max_length=50, choices=LanguageType.choices)
-    syllabus = models.TextField()
+    syllabus = models.JSONField()
     about_course = models.TextField()
     teacher = models.ForeignKey(User, on_delete=models.CASCADE)
 
