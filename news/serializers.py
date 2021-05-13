@@ -5,7 +5,7 @@ from accounts.models import User
 class NewsUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'email', 'avatar', 'specific_field')
+        fields = ('id', 'first_name', 'last_name', 'email', 'avatar', 'specific_field', 'role_type')
 
 class NewsSerializer(serializers.ModelSerializer):
     author = NewsUserSerializer(read_only=True)
