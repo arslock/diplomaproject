@@ -43,7 +43,7 @@ class ClassViewSet(viewsets.ModelViewSet):
 
         elif self.request.user.role_type == 'student':
 
-            return ClassModel.objects.filter(~Q(students_id=self.request.user) & Q(class_type='public'))
+            return ClassModel.objects.filter(~Q(students=self.request.user) & Q(class_type='public'))
 
         return ClassModel.objects.all()
 
