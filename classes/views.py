@@ -18,6 +18,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.mixins import UpdateModelMixin, CreateModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from django.db.models import Q
 
 
     
@@ -41,7 +42,8 @@ class ClassViewSet(viewsets.ModelViewSet):
             return ClassModel.objects.filter(class_type='public')
 
         elif self.request.user.role_type == 'student':
-            return ClassModel.objects.filter(class_type='public')
+
+            return ClassModel.objects.filter(~Q(students_id=self.request.user) & Q(class_type='public'))
 
         return ClassModel.objects.all()
 
