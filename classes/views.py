@@ -36,6 +36,17 @@ class ClassViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    def get_queryset(self):
+        if self.request.user.role_type == 'student':
+            return ClassModel.objects.filter(class_type='public')
+        return ClassModel.objects.all()
+
+    @swagger_auto_schema(operation_description="Get announcment of class",
+                         manual_parameters=[QUERY_CLASS_ID],
+                         responses={201: 'Created', 401: 'Permission denied', 400: 'Bad request body'})  
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 class UploadImageForClass(UpdateModelMixin, GenericViewSet):
     serializer_class = SerializerForImage
     permission_classes = (IsAuthenticated,)
