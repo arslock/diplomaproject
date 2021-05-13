@@ -37,9 +37,12 @@ class ClassViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def get_queryset(self):
-
-        if self.request.user.role_type == 'student' or not self.request.user.is_authenticated:
+        if not self.request.user.is_authenticated:
             return ClassModel.objects.filter(class_type='public')
+
+        elif self.request.user.role_type == 'student':
+            return ClassModel.objects.filter(class_type='public')
+
         return ClassModel.objects.all()
 
     @swagger_auto_schema(operation_description="Get announcment of class",
