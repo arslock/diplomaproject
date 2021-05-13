@@ -141,4 +141,4 @@ class StudentsClasses(ListAPIView):
     serializer_class = ClassSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
     def get_queryset(self):
-        return ClassModel.objects.get(students=self.request.user)
+        return ClassModel.objects.filter(students=self.request.user)
