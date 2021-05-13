@@ -37,7 +37,8 @@ class ClassViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def get_queryset(self):
-        if self.request.user.role_type == 'student':
+
+        if self.request.user.role_type == 'student' or self.request.user.is_anonymous:
             return ClassModel.objects.filter(class_type='public')
         return ClassModel.objects.all()
 
