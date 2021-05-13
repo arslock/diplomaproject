@@ -137,3 +137,7 @@ class AboutClassViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
+class StudentsClasses(ListAPIView):
+    serializer_class = ClassClassSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    queryset = ClassModel.objects.get(students=self.request.user)
