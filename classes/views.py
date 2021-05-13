@@ -38,7 +38,7 @@ class ClassViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
 
-        if self.request.user.role_type == 'student' or self.request.user.is_anonymous:
+        if self.request.user.role_type == 'student' or not self.request.user.is_authenticated:
             return ClassModel.objects.filter(class_type='public')
         return ClassModel.objects.all()
 
