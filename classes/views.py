@@ -10,7 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 from scratchprojecct.tools import HEADER_PARAM, QUERY_CLASS_ID
 from django.db.models import Prefetch
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly 
 from django.contrib.auth import get_user_model
 from submissions.models import SubmitClassWork, SubmitQuiz
 User = get_user_model()
@@ -23,7 +23,7 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
     
 
 class ClassViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = ClassSerializer
     parser_classes = (JSONParser,FormParser,)
 
