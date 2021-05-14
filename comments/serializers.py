@@ -14,9 +14,6 @@ class ClassWorkCommentSerializer(serializers.ModelSerializer):
         model = ClassWorkComments
         fields = "__all__"
 
-        extra_kwargs = {
-            'author': {'read_only': True}
-        }
 
 class MaterialCommentSerializer(serializers.ModelSerializer):
     class Meta:
