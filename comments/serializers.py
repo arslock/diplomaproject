@@ -9,13 +9,14 @@ class CommentAuthorSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'email', 'avatar', 'specific_field', 'role_type')
 
 class ClassWorkCommentSerializer(serializers.ModelSerializer):
-    author = CommentAuthorSerializer()
     class Meta:
         model = ClassWorkComments
         fields = "__all__"
-        extra_kwargs = {
-                'author': {'read_only': True}
-            }
+        
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['author'] = CommentAuthorSerializer(instance.author, context=self.context).data
+        return ret
 
 
 
