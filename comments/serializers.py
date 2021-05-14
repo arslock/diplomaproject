@@ -9,10 +9,31 @@ class CommentAuthorSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'email', 'avatar', 'specific_field', 'role_type')
 
 class ClassWorkCommentSerializer(serializers.ModelSerializer):
-    author = CommentAuthorSerializer(read_only=True)
+    author = CommentAuthorSerializer()
     class Meta:
         model = ClassWorkComments
         fields = "__all__"
+        extra_kwargs = {
+                'author': {'read_only': True}
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class MaterialCommentSerializer(serializers.ModelSerializer):
