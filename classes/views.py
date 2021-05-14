@@ -43,7 +43,7 @@ class ClassViewSet(viewsets.ModelViewSet):
 
         elif self.request.user.role_type == 'student':
 
-            return ClassModel.objects.filter(~Q(students=self.request.user) & Q(class_type='public'))
+            return ClassModel.objects.filter(Q(class_type='public'))
 
         return ClassModel.objects.all()
 
@@ -66,6 +66,14 @@ class ClassStudentsListView(ListAPIView):
 
     def get_queryset(self):
         return User.objects.filter(user_students__id=self.kwargs['class_id'])
+
+
+class ClassesWhereNot(ListAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    serializer_class = ClassSerializer
+
+    def get_queryset(self):
+        return ClassModel.objects.filter(~Q(students=self.request.user))
 
 
 class ClassWorkViewSet(viewsets.ModelViewSet):
