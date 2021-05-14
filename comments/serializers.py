@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from .models import ClassWorkComments, MaterialComments, LessonComments, QuizComments
-from accounts.serializers import 
 from accounts.models import User
 User = get_user_model()
 
