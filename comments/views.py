@@ -60,10 +60,9 @@ class MaterialCommentViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-class ClassWorkComments(ListAPIView):
+class ClassWorkCommentsList(ListAPIView):
     permission_classses = (IsAuthenticated,)
     serializer_class = ClassWorkCommentSerializer
-    queryset = ClassWorkComments.objects.all()
 
     def get_queryset(self):
         return ClassWorkComments.objects.filter(classwork=self.kwargs['classwork_id'])

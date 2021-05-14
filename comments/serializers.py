@@ -1,8 +1,17 @@
 from rest_framework import serializers
 
 from .models import ClassWorkComments, MaterialComments, LessonComments, QuizComments
+from accounts.serializers import 
+from accounts.models import User
+User = get_user_model()
+
+class CommentAuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'email', 'avatar', 'specific_field', 'role_type')
 
 class ClassWorkCommentSerializer(serializers.ModelSerializer):
+    author = CommentAuthorSerializer(read_only=True)
     class Meta:
         model = ClassWorkComments
         fields = "__all__"
