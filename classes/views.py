@@ -73,7 +73,7 @@ class ClassesWhereNot(ListAPIView):
     serializer_class = ClassSerializer
 
     def get_queryset(self):
-        return ClassModel.objects.filter(~Q(students=self.request.user))
+        return ClassModel.objects.filter(~Q(students=self.request.user) & Q(class_type='public'))
 
 
 class ClassWorkViewSet(viewsets.ModelViewSet):
